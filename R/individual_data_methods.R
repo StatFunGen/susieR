@@ -356,3 +356,21 @@ get_zscore.individual <- function(data, params, model, ...) {
 
   return(calc_z(X, data$y, center = params$intercept, scale = params$standardize))
 }
+
+# Clean up model object for individual data
+#' @keywords internal
+cleanup_model.individual <- function(data, model, ...) {
+  # Remove common fields
+  model <- cleanup_model.default(data, model, ...)
+
+  # Remove individual-specific temporary fields
+  individual_fields <- c("raw_residuals")
+
+  for (field in individual_fields) {
+    if (field %in% names(model)) {
+      model[[field]] <- NULL
+    }
+  }
+
+  return(model)
+}

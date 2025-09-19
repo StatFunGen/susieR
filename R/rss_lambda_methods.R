@@ -328,3 +328,21 @@ get_variable_names.rss_lambda <- function(data, model, ...) {
 get_zscore.rss_lambda <- function(data, params, model, ...) {
   return(get_zscore.default(data, params, model))
 }
+
+# Clean up model object for RSS lambda data
+#' @keywords internal
+cleanup_model.rss_lambda <- function(data, model, ...) {
+  # Remove common fields
+  model <- cleanup_model.default(data, model, ...)
+
+  # Remove RSS-lambda-specific temporary fields
+  rss_fields <- c("SinvRj", "RjSinvRj", "Rz", "Z", "zbar", "diag_postb2")
+
+  for (field in rss_fields) {
+    if (field %in% names(model)) {
+      model[[field]] <- NULL
+    }
+  }
+
+  return(model)
+}

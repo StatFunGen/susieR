@@ -456,3 +456,10 @@ get_variable_names.ss <- function(data, model, ...) {
 get_zscore.ss <- function(data, params, model, ...) {
   return(get_zscore.default(data, params, model))
 }
+
+# Clean up model object for sufficient statistics data
+#' @keywords internal
+cleanup_model.ss <- function(data, model, ...) {
+  # Remove common fields
+  return(cleanup_model.default(data, model, ...))
+}

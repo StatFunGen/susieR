@@ -748,7 +748,7 @@ compute_lbf_gradient <- function(alpha, betahat, shat2, V, use_servin_stephens =
 
 # Method of Moments variance estimation for unmappable effects methods
 #' @keywords internal
-mom_unmappable <- function(data, params, model, omega, tau2) {
+mom_unmappable <- function(data, params, model, omega, tau2, est_tau2 = TRUE, est_sigma2 = TRUE) {
   L <- nrow(model$mu)
 
   A <- matrix(0, nrow = 2, ncol = 2)
@@ -801,7 +801,7 @@ mom_unmappable <- function(data, params, model, omega, tau2) {
 
 # MLE variance estimation for unmappable effects
 #' @keywords internal
-mle_unmappable <- function(data, params, model, omega) {
+mle_unmappable <- function(data, params, model, omega, est_tau2 = TRUE, est_sigma2 = TRUE) {
   L <- nrow(model$alpha)
 
   # Set default ranges

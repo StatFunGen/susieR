@@ -219,7 +219,7 @@ update_derived_quantities.default <- function(data, params, model) {
 #' credible sets, variable names, and fitted values.
 #'
 #' Functions: get_scale_factors, get_intercept, get_fitted, get_cs,
-#' get_variable_names, get_zscore
+#' get_variable_names, get_zscore, cleanup_model
 # =============================================================================
 
 # Get column scale factors
@@ -274,4 +274,23 @@ get_zscore <- function(data, params, model, ...) {
 }
 get_zscore.default <- function(data, params, model, ...) {
   return(NULL)
+}
+
+# Clean up model object by removing temporary computational fields
+#' @keywords internal
+cleanup_model <- function(data, model, ...) {
+  UseMethod("cleanup_model")
+}
+cleanup_model.default <- function(data, model, ...) {
+  # Remove temporary fields common to all data types
+  temp_fields <- c("null_weight", "predictor_weights", "prev_elbo", "prev_alpha", 
+                   "residuals", "fitted_without_l", "residual_variance")
+  
+  for (field in temp_fields) {
+    if (field %in% names(model)) {
+      model[[field]] <- NULL
+    }
+  }
+  
+  return(model)
 }
