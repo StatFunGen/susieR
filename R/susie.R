@@ -432,7 +432,7 @@ susie_ss <- function(XtX, Xty, yty, n,
 #' @title SuSiE with Regression Summary Statistics (RSS)
 #'
 #' @description Performs SuSiE regression using z-scores and correlation matrix.
-#' Supports both standard RSS (lambda = 0) and RSS with correlated errors (lambda > 0).
+#' Supports both standard RSS (lambda = 0) and RSS with regularized LD matrix (lambda > 0).
 #'
 #' @param z A p-vector of z-scores.
 #'
@@ -448,7 +448,7 @@ susie_ss <- function(XtX, Xty, yty, n,
 #'   the estimated effects (a vector of length p). This, together with
 #'   \code{bhat}, may be provided instead of \code{z}.
 #'
-#' @param lambda Regularization parameter for correlated errors. When
+#' @param lambda Regularization parameter for LD matrix. When
 #' \code{lambda} > 0, you cannot use \code{unmappable_effects} methods.
 #'
 #' @param z_ld_weight This parameter is included for backwards

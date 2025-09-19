@@ -675,7 +675,7 @@ summary_stats_constructor <- function(z = NULL, R, n = NULL, bhat = NULL,
 # =============================================================================
 #' @section RSS LAMBDA DATA CONSTRUCTOR
 #'
-#' Constructs data and params objects for SuSiE from RSS data with correlated errors (lambda > 0).
+#' Constructs data and params objects for SuSiE from RSS data with regularized LD matrix (lambda > 0).
 #' Handles eigen decomposition, MAF filtering, and specialized RSS-lambda preprocessing.
 # =============================================================================
 #'
