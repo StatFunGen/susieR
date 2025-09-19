@@ -294,7 +294,7 @@ validate_init <- function(data, params) {
     }
   }
 
-  invisible(model_init)
+  invisible(params$model_init)
 }
 
 # Convert individual data to ss with unmappable effects components.
