@@ -65,7 +65,7 @@ ibss_initialize <- function(data, params) {
 
   # Initialize fitted values and null index
   fitted     <- initialize_fitted(data, mat_init)
-  null_index <- initialize_null_index(data)
+  null_index <- initialize_null_index(data, mat_init)
 
   # Return assembled SuSiE object
   model <- c(mat_init,
@@ -143,9 +143,6 @@ ibss_finalize <- function(data, params, model, elbo = NULL, iter = NA_integer_,
 
   # Tracking Across Iterations
   if (params$track_fit) model$trace <- tracking
-
-  # Set pi field from prior_weights
-  if (is.null(model$pi)) model$pi   <- model$prior_weights
 
   # Assign Variable Names
   model <- get_variable_names(data, model)

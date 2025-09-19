@@ -350,7 +350,7 @@ get_zscore.individual <- function(data, params, model, ...) {
       "to skip this step set compute_univariate_zscore = FALSE"
     )
   }
-  if (!is.null(data$null_weight) && data$null_weight != 0) {
+  if (!is.null(model$null_weight) && model$null_weight != 0) {
     X <- X[, 1:(ncol(X) - 1)]
   }
 
