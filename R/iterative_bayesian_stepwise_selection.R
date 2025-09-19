@@ -148,7 +148,7 @@ ibss_finalize <- function(data, params, model, elbo = NULL, iter = NA_integer_,
   model <- get_variable_names(data, model)
 
   # Clean up temporary computational fields
-  model <- cleanup_model(data, model)
+  model <- cleanup_model(data, params, model)
 
   return(model)
 }

@@ -359,9 +359,9 @@ get_zscore.individual <- function(data, params, model, ...) {
 
 # Clean up model object for individual data
 #' @keywords internal
-cleanup_model.individual <- function(data, model, ...) {
+cleanup_model.individual <- function(data, params, model, ...) {
   # Remove common fields
-  model <- cleanup_model.default(data, model, ...)
+  model <- cleanup_model.default(data, params, model, ...)
 
   # Remove individual-specific temporary fields
   individual_fields <- c("raw_residuals")

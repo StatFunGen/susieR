@@ -331,9 +331,9 @@ get_zscore.rss_lambda <- function(data, params, model, ...) {
 
 # Clean up model object for RSS lambda data
 #' @keywords internal
-cleanup_model.rss_lambda <- function(data, model, ...) {
+cleanup_model.rss_lambda <- function(data, params, model, ...) {
   # Remove common fields
-  model <- cleanup_model.default(data, model, ...)
+  model <- cleanup_model.default(data, params, model, ...)
 
   # Remove RSS-lambda-specific temporary fields
   rss_fields <- c("SinvRj", "RjSinvRj", "Rz", "Z", "zbar", "diag_postb2")

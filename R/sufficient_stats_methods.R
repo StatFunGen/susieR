@@ -459,7 +459,20 @@ get_zscore.ss <- function(data, params, model, ...) {
 
 # Clean up model object for sufficient statistics data
 #' @keywords internal
-cleanup_model.ss <- function(data, model, ...) {
+cleanup_model.ss <- function(data, params, model, ...) {
   # Remove common fields
-  return(cleanup_model.default(data, model, ...))
+  model <- cleanup_model.default(data, params, model, ...)
+  
+  # Remove SS-specific fields for unmappable effects
+  if (!is.null(params$unmappable_effects) && params$unmappable_effects %in% c("inf", "ash")) {
+    unmappable_fields <- c("omega_var", "XtOmegay")
+    
+    for (field in unmappable_fields) {
+      if (field %in% names(model)) {
+        model[[field]] <- NULL
+      }
+    }
+  }
+  
+  return(model)
 }

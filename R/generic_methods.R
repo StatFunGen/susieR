@@ -278,10 +278,10 @@ get_zscore.default <- function(data, params, model, ...) {
 
 # Clean up model object by removing temporary computational fields
 #' @keywords internal
-cleanup_model <- function(data, model, ...) {
+cleanup_model <- function(data, params, model, ...) {
   UseMethod("cleanup_model")
 }
-cleanup_model.default <- function(data, model, ...) {
+cleanup_model.default <- function(data, params, model, ...) {
   # Remove temporary fields common to all data types
   temp_fields <- c("null_weight", "predictor_weights", "prev_elbo", "prev_alpha", 
                    "residuals", "fitted_without_l", "residual_variance")
