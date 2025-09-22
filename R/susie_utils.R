@@ -964,14 +964,14 @@ update_model_variance <- function(data, params, model) {
 
 # Check convergence
 #' @keywords internal
-check_convergence <- function(params, model, elbo, iter) {
+check_convergence <- function(params, model, elbo, iter, tracking) {
   # Skip convergence check on first iteration
   if(iter == 1) {
     return(FALSE)
   }
 
   # Calculate difference in ELBO values
-  ELBO_diff   <- elbo[iter + 1] - model$prev_elbo
+  ELBO_diff   <- elbo[iter + 1] - tracking$convergence$prev_elbo
   ELBO_failed <- is.na(ELBO_diff) || is.infinite(ELBO_diff)
 
   if (params$convergence_method == "pip" || ELBO_failed) {
@@ -982,7 +982,7 @@ check_convergence <- function(params, model, elbo, iter) {
     }
 
     # Calculate difference in alpha values
-    PIP_diff <- max(abs(model$prev_alpha - model$alpha))
+    PIP_diff <- max(abs(tracking$convergence$prev_alpha - model$alpha))
     return(PIP_diff < params$tol)
   }
   return(ELBO_diff < params$tol)
@@ -1064,7 +1064,7 @@ compute_elbo_inf <- function(alpha, mu, omega, lbf, sigma2, tau2, n, p,
 #' inclusion probabilities, and summary statistics. These process the fitted
 #' model into interpretable results.
 #'
-#' Functions: n_in_CS_x, in_CS_x, n_in_CS, in_CS, get_purity
+#' Functions: n_in_CS_x, in_CS_x, n_in_CS, in_CS, get_purity, get_tracking
 # =============================================================================
 
 # Find how many variables in the CS.
@@ -1142,4 +1142,12 @@ get_purity <- function(pos, X, Xcorr, squared = FALSE, n = 100,
       get_median(value)
     ))
   }
+}
+
+# Clean tracking object for output by removing convergence data
+#' @keywords internal
+get_tracking <- function(tracking) {
+  clean_tracking <- tracking
+  clean_tracking$convergence <- NULL
+  return(clean_tracking)
 }

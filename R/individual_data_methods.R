@@ -62,8 +62,8 @@ validate_prior.individual <- function(data, params, model, ...) {
 
 # Track core parameters across iterations
 #' @keywords internal
-track_ibss_fit.individual <- function(data, params, model, tracking, iter, ...) {
-  return(track_ibss_fit.default(data, params, model, tracking, iter, ...))
+track_ibss_fit.individual <- function(data, params, model, tracking, iter, elbo, ...) {
+  return(track_ibss_fit.default(data, params, model, tracking, iter, elbo, ...))
 }
 
 # =============================================================================

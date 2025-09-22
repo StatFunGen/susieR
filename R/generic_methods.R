@@ -68,7 +68,20 @@ validate_prior.default <- function(data, params, model, ...) {
 track_ibss_fit <- function(data, params, model, tracking, iter, ...) {
   UseMethod("track_ibss_fit")
 }
-track_ibss_fit.default <- function(data, params, model, tracking, iter, ...) {
+track_ibss_fit.default <- function(data, params, model, tracking, iter, elbo, ...) {
+  # Initialize tracking structure on first iteration
+  if (iter == 1) {
+    tracking$convergence <- list(
+      prev_elbo  = -Inf,
+      prev_alpha = model$alpha
+    )
+  } else {
+    # Update previous values for convergence checking
+    tracking$convergence$prev_elbo  <- elbo[iter]
+    tracking$convergence$prev_alpha <- model$alpha
+  }
+
+  # Store additional tracking information if requested
   if (isTRUE(params$track_fit)) {
     tracking[[iter]] <- list(
       alpha  = model$alpha,
@@ -283,14 +296,14 @@ cleanup_model <- function(data, params, model, ...) {
 }
 cleanup_model.default <- function(data, params, model, ...) {
   # Remove temporary fields common to all data types
-  temp_fields <- c("null_weight", "predictor_weights", "prev_elbo", "prev_alpha", 
+  temp_fields <- c("null_weight", "predictor_weights", "prev_elbo", "prev_alpha",
                    "residuals", "fitted_without_l", "residual_variance")
-  
+
   for (field in temp_fields) {
     if (field %in% names(model)) {
       model[[field]] <- NULL
     }
   }
-  
+
   return(model)
 }

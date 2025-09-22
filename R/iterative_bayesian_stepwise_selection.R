@@ -142,7 +142,7 @@ ibss_finalize <- function(data, params, model, elbo = NULL, iter = NA_integer_,
   model$z    <- get_zscore(data, params, model)
 
   # Tracking Across Iterations
-  if (params$track_fit) model$trace <- tracking
+  if (params$track_fit) model$trace <- get_tracking(tracking)
 
   # Assign Variable Names
   model <- get_variable_names(data, model)

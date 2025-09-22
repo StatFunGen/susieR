@@ -89,17 +89,17 @@ validate_prior.ss <- function(data, params, model, ...) {
 
 # Track core parameters across iterations
 #' @keywords internal
-track_ibss_fit.ss <- function(data, params, model, tracking, iter, ...) {
+track_ibss_fit.ss <- function(data, params, model, tracking, iter, elbo, ...) {
   if (params$unmappable_effects %in% c("inf", "ash")) {
     # Append non-sparse variance component to tracking
-    tracking <- track_ibss_fit.default(data, params, model, tracking, iter, ...)
+    tracking <- track_ibss_fit.default(data, params, model, tracking, iter, elbo, ...)
     if (isTRUE(params$track_fit)) {
       tracking[[iter]]$tau2 <- model$tau2
     }
     return(tracking)
   } else {
     # Use default for standard SS case
-    return(track_ibss_fit.default(data, params, model, tracking, iter, ...))
+    return(track_ibss_fit.default(data, params, model, tracking, iter, elbo, ...))
   }
 }
 
