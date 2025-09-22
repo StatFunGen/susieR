@@ -7,7 +7,7 @@
 #'
 #' @return A list containing:
 #' \item{data}{A processed list containing X and y matrices with appropriate scaling
-#' attributes, sample dimensions,  and prior weights}
+#' attributes and sample dimensions}
 #' \item{params}{Validated params object with all input algorithm parameters}
 #'
 #' @keywords internal
@@ -189,7 +189,7 @@ individual_data_constructor <- function(X, y, L = min(10, ncol(X)),
 #'
 #' @return A list containing:
 #' \item{data}{A processed list containing XtX, Xty, yty matrices with appropriate scaling
-#' attributes, sample dimensions, and prior weights}
+#' attributes and sample dimensions}
 #' \item{params}{Validated params object with all input algorithm parameters}
 #'
 #' @keywords internal
@@ -449,7 +449,7 @@ sufficient_stats_constructor <- function(XtX, Xty, yty, n,
 #'
 #' @return A list containing:
 #' \item{data}{A processed list containing converted matrices with appropriate scaling
-#' attributes, sample dimensions, and prior weights}
+#' attributes and sample dimensions}
 #' \item{params}{Validated params object with all input algorithm parameters}
 #'
 #' @keywords internal

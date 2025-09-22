@@ -23,7 +23,7 @@ The architecture revolves around three key objects:
 - **Mutability**: Immutable - never modified after creation
 - **Contents**: 
   - Input matrices: X/y (individual), XtX/Xty/yty (ss), z/R (rss_lambda)
-  - Metadata: n, p, prior_weights, null_weight
+  - Metadata: n, p
   - Scaling attributes: For compute_Xb() compatibility
   - Specialized fields: Eigen decomposition for unmappable effects/rss_lambda
 
