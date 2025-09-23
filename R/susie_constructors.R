@@ -20,7 +20,7 @@ individual_data_constructor <- function(X, y, L = min(10, ncol(X)),
                                         standardize = TRUE,
                                         intercept = TRUE,
                                         estimate_residual_variance = TRUE,
-                                        estimate_residual_method = "MLE",
+                                        estimate_residual_method = "MoM",
                                         estimate_prior_variance = TRUE,
                                         estimate_prior_method = "optim",
                                         unmappable_effects = "none",
@@ -207,7 +207,7 @@ sufficient_stats_constructor <- function(XtX, Xty, yty, n,
                                          null_weight = 0,
                                          model_init = NULL,
                                          estimate_residual_variance = TRUE,
-                                         estimate_residual_method = "MLE",
+                                         estimate_residual_method = "MoM",
                                          residual_variance_lowerbound = 0,
                                          residual_variance_upperbound = Inf,
                                          estimate_prior_variance = TRUE,
@@ -338,7 +338,7 @@ sufficient_stats_constructor <- function(XtX, Xty, yty, n,
   if (is.null(prior_weights)) {
     prior_weights <- rep(1 / p, p)
   }
-  
+
   # Validate and normalize prior_weights
   if (length(prior_weights) != p) {
     stop("Prior weights must have length p.")
@@ -469,7 +469,7 @@ summary_stats_constructor <- function(z = NULL, R, n = NULL, bhat = NULL,
                                       standardize = TRUE,
                                       intercept_value = 0,
                                       estimate_residual_variance = FALSE,
-                                      estimate_residual_method = "MLE",
+                                      estimate_residual_method = "MoM",
                                       estimate_prior_variance = TRUE,
                                       estimate_prior_method = "optim",
                                       unmappable_effects = "none",
@@ -701,7 +701,7 @@ rss_lambda_constructor <- function(z, R, n = NULL,
                                    standardize = TRUE,
                                    intercept_value = 0,
                                    estimate_residual_variance = FALSE,
-                                   estimate_residual_method = "MLE",
+                                   estimate_residual_method = "MoM",
                                    estimate_prior_variance = TRUE,
                                    estimate_prior_method = "optim",
                                    unmappable_effects = "none",
@@ -725,10 +725,11 @@ rss_lambda_constructor <- function(z, R, n = NULL,
                                    r_tol = 1e-8,
                                    refine = FALSE) {
 
-  # Validate that MoM is not requested for RSS with lambda != 0
+  # Handle MoM fallback for RSS with lambda != 0
   if (estimate_residual_method == "MoM") {
-    stop("Method of Moments (MoM) variance estimation is not implemented for RSS with lambda > 0. ",
-         "Please use estimate_residual_method = 'MLE' instead.")
+    warning_message("Method of Moments (MoM) variance estimation is not implemented for RSS with lambda > 0. ",
+            "Automatically switching to estimate_residual_method = 'MLE'.")
+    estimate_residual_method <- "MLE"
   }
 
   if (estimate_residual_method == "Servin_Stephens") {
@@ -798,12 +799,12 @@ rss_lambda_constructor <- function(z, R, n = NULL,
 
   # Eigen decomposition for R
   p <- ncol(R)
-  
+
   # Set uniform prior weights if not provided
   if (is.null(prior_weights)) {
     prior_weights <- rep(1 / p, p)
   }
-  
+
   eigen_R <- eigen(R, symmetric = TRUE)
 
   if (check_R && any(eigen_R$values < -r_tol)) {
